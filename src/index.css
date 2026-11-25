@@ -11,6 +11,7 @@
   --nav-active-bg: #000000;
   --nav-active-fg: #ffffff;
   --nav-fg: #000000;
+  --chip-bg: rgba(246, 246, 248, 0.78);
   --nav-fade: #ffffff;
   --accent: #fe60b4;
   --accent-soft: rgba(254, 96, 180, 0.22);
@@ -80,6 +81,7 @@
   --nav-active-bg: #ffffff;
   --nav-active-fg: #000000;
   --nav-fg: #ffffff;
+  --chip-bg: rgba(38, 38, 42, 0.78);
   --nav-fade: #0a0a0a;
   --accent: #fe60b4;
   --accent-soft: rgba(254, 96, 180, 0.22);

@@ -1,10 +1,11 @@
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import connectIcon from '../assets/icons/connect.svg'
 import copyIcon from '../assets/icons/copy.svg'
 import fileIcon from '../assets/icons/file.svg'
 import profile from '../assets/img/profile.png'
 import { buildSequences, heroSlots } from '../data/stickers'
+import { EMAIL, useCopy } from '../lib/useCopy'
 import { GlossyButton } from './GlossyButton'
 import { Sticker } from './Sticker'
 
@@ -107,39 +108,16 @@ export function Hero() {
   )
 }
 
-/**
- * Text placed on the clipboard when "Copy" is clicked.
- * TODO: fill in (e.g. your email) — while empty, only the ✓ feedback is shown.
- */
-const COPY_TEXT = ''
-const COPIED_MS = 2000
-
-/** "Copy" action: swaps its icon to a green check for 2s, then back. */
+/** "Copy" action: copies the email and swaps its icon to a green check for 2s, then back. */
 function CopyButton() {
   const reduce = useReducedMotion()
-  const [copied, setCopied] = useState(false)
-  const timer = useRef<number | undefined>(undefined)
-
-  useEffect(() => () => window.clearTimeout(timer.current), [])
-
-  const onClick = async () => {
-    if (COPY_TEXT) {
-      try {
-        await navigator.clipboard.writeText(COPY_TEXT)
-      } catch {
-        // Clipboard can be blocked (permissions / insecure origin); still show feedback.
-      }
-    }
-    setCopied(true)
-    // Clicking again restarts the 2s window.
-    window.clearTimeout(timer.current)
-    timer.current = window.setTimeout(() => setCopied(false), COPIED_MS)
-  }
+  const { copied, copy } = useCopy(EMAIL)
 
   return (
     <button
       type="button"
-      onClick={onClick}
+      onClick={copy}
+      aria-label={`Copy email address ${EMAIL}`}
       className="pressable flex cursor-pointer items-center justify-center gap-1.5 px-3 py-2.5 text-[13px] leading-[15.6px] font-medium"
     >
       <span className="relative size-[18px]">

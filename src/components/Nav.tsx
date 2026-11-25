@@ -1,32 +1,35 @@
 import { motion, useReducedMotion } from 'motion/react'
 import { useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router'
 
-type Item = { id: string; label: string; href: string }
+type Item = { id: string; label: string; to: string }
 
-// About & Email Me have no destination yet — wire them up later.
+// Email Me has no destination yet — wire it up later.
 const ITEMS: Item[] = [
-  { id: 'home', label: 'Home', href: '#top' },
-  { id: 'works', label: 'Works', href: '#works' },
-  { id: 'about', label: 'About', href: '#' },
-  { id: 'email', label: 'Email Me', href: '#' },
+  { id: 'home', label: 'Home', to: '/' },
+  { id: 'works', label: 'Works', to: '/#works' },
+  { id: 'about', label: 'About', to: '/about' },
+  { id: 'email', label: 'Email Me', to: '' },
 ]
 
 /** Floating pill navigation + the blurred fade behind it (Figma: Floating Pill Navigation / Mask Group). */
 export function Nav() {
-  const [active, setActive] = useState('home')
+  const { pathname } = useLocation()
+  const [section, setSection] = useState<'home' | 'works'>('home')
   const reduce = useReducedMotion()
+  const active = pathname === '/about' ? 'about' : section
 
-  // Highlight "Works" while the works grid is in view.
+  // On the home page, highlight "Works" while the works grid is in view.
   useEffect(() => {
     const works = document.getElementById('works')
-    if (!works) return
+    if (pathname !== '/' || !works) return
     const io = new IntersectionObserver(
-      ([entry]) => setActive(entry.isIntersecting ? 'works' : 'home'),
+      ([entry]) => setSection(entry.isIntersecting ? 'works' : 'home'),
       { rootMargin: '-45% 0px -45% 0px' },
     )
     io.observe(works)
     return () => io.disconnect()
-  }, [])
+  }, [pathname])
 
   return (
     <>
@@ -39,11 +42,10 @@ export function Nav() {
             const isActive = active === item.id
             return (
               <li key={item.id}>
-                <a
-                  href={item.href}
+                <Link
+                  to={item.to || '#'}
                   onClick={(e) => {
-                    if (item.href === '#') e.preventDefault()
-                    else setActive(item.id)
+                    if (!item.to) e.preventDefault()
                   }}
                   aria-current={isActive ? 'page' : undefined}
                   className="pressable relative flex min-h-8 items-center justify-center rounded-full px-[14px] py-[6px] text-sm leading-5 font-medium tracking-[-0.28px] whitespace-nowrap"
@@ -61,7 +63,7 @@ export function Nav() {
                     />
                   )}
                   <span className="relative">{item.label}</span>
-                </a>
+                </Link>
               </li>
             )
           })}
