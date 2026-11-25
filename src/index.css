@@ -1,0 +1,231 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* Design tokens (values from Figma "1440w light" / "1440w dark") */
+:root {
+  --bg: #ffffff;
+  --fg: #000000;
+  --fg-muted: rgba(0, 0, 0, 0.52);
+  --nav-bg: #f6f6f6;
+  --nav-active-bg: #000000;
+  --nav-active-fg: #ffffff;
+  --nav-fg: #000000;
+  --nav-fade: #ffffff;
+  --accent: #fe60b4;
+  --accent-soft: rgba(254, 96, 180, 0.22);
+  --pill-bg: #ffffff;
+  --pill-shadow: 0px 8px 28px 0px rgba(30, 40, 60, 0.14);
+  --pill-divider: rgba(0, 0, 0, 0.04);
+  --logo-tint: #b1b1b1;
+  --placeholder: #e0e0e0;
+  --card-bg: #f6f6f6;
+  --card-bg-active: #ffffff;
+  --card-divider: rgba(0, 0, 0, 0.2);
+  --avatar-bg: #ebebeb;
+  --dot: rgba(0, 0, 0, 0.2);
+  --dot-active: #000000;
+  --footer-border: #ededed;
+  --frame-accent: #9747ff;
+  --toggle-cord: rgba(38, 38, 42, 0.82);
+  --icon-filter: none;
+  --card-border: transparent;
+  --footer-bg: #ffffff;
+  --strip-bg: #ffffff;
+  --toggle-border: #b8b7b2;
+  --toggle-bg: linear-gradient(155deg, #ffffff 0%, #eae9e5 48%, #c5c4bf 100%);
+  --toggle-knob: linear-gradient(160deg, #fafaf7 0%, #e3e2dc 100%);
+
+  /* Glossy buttons — silver ("Get in touch", socials) */
+  --silver-from: rgba(255, 255, 255, 0.98);
+  --silver-via: rgba(247, 248, 250, 0.97);
+  --silver-via-stop: 58%;
+  --silver-to: rgba(221, 225, 231, 0.95);
+  --silver-inset: inset 0px -3px 8px 0px rgba(102, 112, 128, 0.24), inset 0px 1px 0px 0px rgba(255, 255, 255, 0.96);
+  --silver-reflection: rgba(255, 255, 255, 0.42);
+  --silver-glow-from: rgba(95, 130, 185, 0.06);
+  --silver-glow-via: rgba(76, 122, 196, 0.28);
+  --silver-glow-to: rgba(48, 86, 148, 0.62);
+  --silver-glow-opacity: 0.55;
+  --silver-glow-shadow: 0px 16px 32px -10px rgba(42, 75, 132, 0.78);
+  --silver-fg: #000000;
+  --silver-text-shadow: 0px -0.5px 0px black, 0px 0.5px 0px white;
+
+  /* Glossy buttons — primary ("Works"): pink in light */
+  --primary-from: rgba(254, 96, 180, 0.99);
+  --primary-via: rgba(254, 96, 191, 0.99);
+  --primary-via-stop: 62%;
+  --primary-to: rgba(254, 173, 220, 0.99);
+  --primary-inset: inset 0px -5px 10px 0px #ffe2f2, inset 0px 1px 0px 0px rgba(255, 255, 255, 0.5);
+  --primary-reflection: rgba(255, 255, 255, 0.55);
+  --primary-glow-from: rgba(254, 96, 180, 0.1);
+  --primary-glow-via: rgba(254, 96, 186, 0.4);
+  --primary-glow-to: rgba(254, 137, 204, 0.78);
+  --primary-glow-opacity: 0.58;
+  --primary-glow-shadow: 0px 18px 38px -10px rgba(254, 96, 180, 0.92), 0px 26px 56px -14px rgba(254, 96, 180, 0.68);
+  --primary-fg: #ffffff;
+  --primary-text-shadow: 0px -0.5px 0px black, 0px 0.5px 0px white;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --bg: #0a0a0a;
+  --fg: #ffffff;
+  --fg-muted: rgba(255, 255, 255, 0.6);
+  --nav-bg: #262626;
+  --nav-active-bg: #ffffff;
+  --nav-active-fg: #000000;
+  --nav-fg: #ffffff;
+  --nav-fade: #0a0a0a;
+  --accent: #fe60b4;
+  --accent-soft: rgba(254, 96, 180, 0.22);
+  --pill-bg: #262626;
+  --pill-shadow: none;
+  --pill-divider: rgba(255, 255, 255, 0.12);
+  --logo-tint: #575757;
+  --placeholder: #e0e0e0;
+  --card-bg: #262626;
+  --card-bg-active: #0a0a0a;
+  --card-divider: rgba(255, 255, 255, 0.2);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --avatar-bg: #313131;
+  --dot: rgba(255, 255, 255, 0.2);
+  --dot-active: #ffffff;
+  --footer-border: #1f1f1f;
+  --footer-bg: #000000;
+  --strip-bg: #0a0a0a;
+  --frame-accent: #9747ff;
+  --toggle-cord: rgba(106, 106, 106, 0.82);
+  --toggle-border: #5a5a5a;
+  --toggle-bg: linear-gradient(155deg, #2f2f2f 0%, #3a3a3a 48%, #4a4a4a 100%);
+  --toggle-knob: linear-gradient(160deg, #3f3f3f 0%, #4f4f4f 100%);
+  --icon-filter: invert(1);
+
+  --silver-from: rgba(44, 46, 52, 0.98);
+  --silver-via: rgba(27, 29, 34, 0.99);
+  --silver-via-stop: 62%;
+  --silver-to: rgba(18, 19, 23, 0.99);
+  --silver-inset: inset 0px -4px 8px 0px rgba(0, 0, 0, 0.56), inset 0px 1px 0px 0px rgba(255, 255, 255, 0.1);
+  --silver-reflection: rgba(255, 255, 255, 0.2);
+  --silver-glow-from: rgba(0, 0, 0, 0.02);
+  --silver-glow-via: rgba(0, 0, 0, 0.22);
+  --silver-glow-to: rgba(0, 0, 0, 0.68);
+  --silver-glow-opacity: 0.38;
+  --silver-glow-shadow: 0px 16px 32px -12px rgba(0, 0, 0, 0.86);
+  --silver-fg: #ffffff;
+
+  /* Primary turns lime in dark */
+  --primary-from: rgba(219, 251, 25, 0.8);
+  --primary-via: rgba(219, 251, 25, 0.8);
+  --primary-to: rgba(219, 251, 25, 0.8);
+  --primary-inset: inset 0px -5px 10px 0px #ffffff, inset 0px 5px 5px 0px #dbfb19;
+  --primary-glow-from: rgba(219, 251, 25, 0.08);
+  --primary-glow-via: rgba(219, 251, 25, 0.34);
+  --primary-glow-to: rgba(219, 251, 25, 0.66);
+  --primary-glow-opacity: 0.52;
+  --primary-glow-shadow: 0px 18px 36px -10px rgba(219, 251, 25, 0.86), 0px 25px 52px -14px rgba(219, 251, 25, 0.58);
+  --primary-fg: #0a0a0a;
+
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-inter: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-placeholder: var(--placeholder);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  transition: background-color 300ms ease, color 300ms ease;
+}
+
+/* Press feedback for every pressable element (Emil: 0.97, 160ms ease-out) */
+.pressable {
+  transition: transform 160ms var(--ease-out);
+}
+.pressable:active {
+  transform: scale(0.97);
+}
+
+/* Theme-aware monochrome icons exported from Figma (black strokes) */
+.theme-icon {
+  filter: var(--icon-filter);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 999px;
+}
+
+/* Hover lift for stickers & work thumbnails — only on devices with a real pointer */
+.sticker-hover {
+  transition: transform 250ms var(--ease-out);
+}
+.work-card-img {
+  transition: transform 500ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .sticker:hover .sticker-hover {
+    transform: scale(1.06) rotate(-3deg);
+  }
+  .work-card:hover .work-card-img {
+    transform: scale(1.03);
+  }
+}
+
+/* Gentle twinkle on the bright stars (dark mode) */
+@keyframes twinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.star-twinkle {
+  animation: twinkle 3.2s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .star-twinkle { animation: none; }
+  .sticker-hover, .work-card-img { transition: none; }
+}
+
+/* Hero sticker placement: Figma 1440 frame on ≥640px, Figma 390 frame below */
+.sticker {
+  left: var(--x);
+  top: var(--y);
+  width: var(--w);
+  aspect-ratio: var(--ar);
+}
+@media (max-width: 639px) {
+  .sticker {
+    display: var(--mdisplay);
+    left: var(--mx);
+    top: var(--my);
+    width: var(--mw);
+    aspect-ratio: var(--mar);
+  }
+}
