@@ -5,18 +5,22 @@ import copyIcon from '../assets/icons/copy.svg'
 import fileIcon from '../assets/icons/file.svg'
 import profile from '../assets/img/profile.png'
 import { buildSequences, heroSlots } from '../data/stickers'
+import { LINKEDIN_URL, NEW_TAB } from '../lib/links'
 import { EMAIL, useCopy } from '../lib/useCopy'
 import { GlossyButton } from './GlossyButton'
 import { Sticker } from './Sticker'
 
 const EASE = [0.23, 1, 0.32, 1] as const
 
-// Copy / Open CV / LinkedIn — destinations to be wired up later.
-const ACTIONS = [
+// Open CV destination still to be wired up.
+const ACTIONS: { label: string; icon: string; href?: string }[] = [
   { label: 'Copy', icon: copyIcon },
   { label: 'Open CV', icon: fileIcon },
-  { label: 'LinkedIn', icon: connectIcon },
+  { label: 'LinkedIn', icon: connectIcon, href: LINKEDIN_URL },
 ]
+
+const ACTION_CLASS =
+  'pressable flex cursor-pointer items-center justify-center gap-1.5 px-3 py-2.5 text-[13px] leading-[15.6px] font-medium'
 
 export function Hero() {
   const reduce = useReducedMotion()
@@ -67,11 +71,14 @@ export function Hero() {
                     {i > 0 && <span aria-hidden className="h-5 w-px" style={{ background: 'var(--pill-divider)' }} />}
                     {a.label === 'Copy' ? (
                       <CopyButton />
+                    ) : a.href ? (
+                      <a href={a.href} {...NEW_TAB} className={ACTION_CLASS}>
+                        <img src={a.icon} alt="" width={18} height={18} className="theme-icon size-[18px]" />
+                        {a.label}
+                        <span className="sr-only"> (opens in a new tab)</span>
+                      </a>
                     ) : (
-                      <button
-                        type="button"
-                        className="pressable flex cursor-pointer items-center justify-center gap-1.5 px-3 py-2.5 text-[13px] leading-[15.6px] font-medium"
-                      >
+                      <button type="button" className={ACTION_CLASS}>
                         <img src={a.icon} alt="" width={18} height={18} className="theme-icon size-[18px]" />
                         {a.label}
                       </button>

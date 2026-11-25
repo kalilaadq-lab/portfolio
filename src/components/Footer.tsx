@@ -8,13 +8,14 @@ import telegram from '../assets/icons/telegram.svg'
 import x from '../assets/icons/x.svg'
 import catHead from '../assets/img/cat-head.png'
 import catPaws from '../assets/img/cat-paws.png'
+import { LINKEDIN_URL, NEW_TAB } from '../lib/links'
 import { GlossyButton } from './GlossyButton'
 
-// Social links — URLs to be filled in later.
-const SOCIALS = [
+// Social links — Telegram, X and Dribbble URLs still to be filled in.
+const SOCIALS: { label: string; icon: string; href?: string }[] = [
   { label: 'Telegram', icon: telegram },
   { label: 'X', icon: x },
-  { label: 'LinkedIn', icon: linkedin },
+  { label: 'LinkedIn', icon: linkedin, href: LINKEDIN_URL },
   { label: 'Dribbble', icon: dribbble },
 ]
 
@@ -144,7 +145,13 @@ export function Footer() {
               animate={inView ? { opacity: 1, y: 0, scale: 1 } : undefined}
               transition={{ duration: 0.45, ease: EASE_OUT, delay: 1.0 + i * 0.06 }}
             >
-              <GlossyButton href="#" shape="icon" magnetic aria-label={s.label} onClick={(e) => e.preventDefault()}>
+              <GlossyButton
+                shape="icon"
+                magnetic
+                {...(s.href
+                  ? { href: s.href, ...NEW_TAB, 'aria-label': `${s.label} (opens in a new tab)` }
+                  : { href: '#', 'aria-label': s.label, onClick: (e) => e.preventDefault() })}
+              >
                 <img src={s.icon} alt="" width={20} height={20} className="theme-icon size-5" />
               </GlossyButton>
             </motion.div>
