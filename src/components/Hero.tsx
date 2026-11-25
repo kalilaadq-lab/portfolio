@@ -150,13 +150,10 @@ function CopyButton() {
             </motion.svg>
           ) : (
             // Copy icon: spins out when copying, spins back in when the check expires.
-            <motion.img
+            // The wrapper animates (incl. blur filter) so the <img> keeps its dark-mode invert filter.
+            <motion.span
               key="copy"
-              src={copyIcon}
-              alt=""
-              width={18}
-              height={18}
-              className="theme-icon absolute inset-0 size-[18px]"
+              className="absolute inset-0 size-[18px]"
               initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.6, rotate: 45, filter: 'blur(2px)' }}
               animate={{ opacity: 1, scale: 1, rotate: 0, filter: 'blur(0px)' }}
               exit={
@@ -165,7 +162,9 @@ function CopyButton() {
                   : { opacity: 0, scale: 0.6, rotate: -45, filter: 'blur(2px)', transition: { duration: 0.15, ease: EASE } }
               }
               transition={reduce ? { duration: 0.15 } : { type: 'spring', duration: 0.4, bounce: 0.3 }}
-            />
+            >
+              <img src={copyIcon} alt="" width={18} height={18} className="theme-icon block size-[18px]" />
+            </motion.span>
           )}
         </AnimatePresence>
       </span>

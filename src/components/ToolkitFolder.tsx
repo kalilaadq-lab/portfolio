@@ -1,6 +1,8 @@
 import { motion, useReducedMotion, type Transition } from 'motion/react'
 import { useState } from 'react'
+import frontPanelDark from '../assets/about/folder-front-dark.svg'
 import frontPanel from '../assets/about/folder-front-open.svg'
+import groundShadowDark from '../assets/about/folder-shadow-dark.svg'
 import groundShadow from '../assets/about/folder-shadow.svg'
 import toolAlien from '../assets/about/tool-alien.png'
 import toolFigma from '../assets/about/tool-figma.png'
@@ -45,13 +47,16 @@ export function ToolkitFolder({ className = '' }: { className?: string }) {
       transition={{ type: 'spring', duration: 0.25, bounce: 0 }}
       className={`absolute h-[436px] w-[399.67px] cursor-pointer rounded-[24px] [-webkit-tap-highlight-color:transparent] ${className}`}
     >
-      {/* Ground shadow */}
-      <img alt="" src={groundShadow} className="pointer-events-none absolute top-[370px] left-[40.99px] h-[50px] w-[318px] max-w-none" />
+      {/* Whole folder tilts -3° around its centre (Figma dark frame; same in light). */}
+      <span className="absolute inset-0 -rotate-3">
+      {/* Ground shadow (pink in light, lime in dark — as in the Figma light/dark frames) */}
+      <img alt="" src={groundShadow} className="pointer-events-none absolute top-[370px] left-[40.99px] h-[50px] w-[318px] max-w-none dark:hidden" />
+      <img alt="" src={groundShadowDark} className="pointer-events-none absolute top-[370px] left-[40.99px] hidden h-[50px] w-[318px] max-w-none dark:block" />
 
       {/* Back panel */}
       <span
         aria-hidden
-        className="pointer-events-none absolute top-[160px] left-[48px] h-[226px] w-[304px] rounded-[20px] border border-[rgba(242,79,166,0.55)] bg-gradient-to-b from-[#ff9bd0] to-[#fe60b4] shadow-[inset_0px_-6px_14px_0px_rgba(224,65,143,0.35),inset_0px_2px_2px_0px_rgba(255,255,255,0.55)]"
+        className="pointer-events-none absolute top-[160px] left-[48px] h-[226px] w-[304px] rounded-[20px] border border-[rgba(242,79,166,0.55)] bg-gradient-to-b from-[#ff9bd0] to-[#fe60b4] shadow-[inset_0px_-6px_14px_0px_rgba(224,65,143,0.35),inset_0px_2px_2px_0px_rgba(255,255,255,0.55)] dark:border-[rgba(163,199,0,0.6)] dark:from-[#f6ffb0] dark:via-[#dbfb19] dark:via-45% dark:to-[#a2c800] dark:shadow-[inset_0px_-6px_14px_0px_rgba(134,168,0,0.4),inset_0px_2px_2px_0px_rgba(255,255,255,0.55)]"
       />
 
       {/* Logos */}
@@ -84,8 +89,10 @@ export function ToolkitFolder({ className = '' }: { className?: string }) {
           className="absolute inset-0 backdrop-blur-[6.75px]"
           style={{ clipPath: `path('${PANEL_PATH}')` }}
         />
-        <img alt="" src={frontPanel} className="absolute inset-0 size-full max-w-none" />
+        <img alt="" src={frontPanel} className="absolute inset-0 size-full max-w-none dark:hidden" />
+        <img alt="" src={frontPanelDark} className="absolute inset-0 hidden size-full max-w-none dark:block" />
       </motion.span>
+      </span>
     </motion.button>
   )
 }
