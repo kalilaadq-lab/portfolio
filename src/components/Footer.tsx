@@ -8,14 +8,15 @@ import telegram from '../assets/icons/telegram.svg'
 import x from '../assets/icons/x.svg'
 import catHead from '../assets/img/cat-head.png'
 import catPaws from '../assets/img/cat-paws.png'
-import { LINKEDIN_URL, NEW_TAB } from '../lib/links'
+import { LINKEDIN_URL, MAILTO, NEW_TAB } from '../lib/links'
 import { GlossyButton } from './GlossyButton'
 
-// Social links — Telegram, X and Dribbble URLs still to be filled in.
-const SOCIALS: { label: string; icon: string; href?: string }[] = [
-  { label: 'Telegram', icon: telegram },
+// Social links — X and Dribbble URLs still to be filled in.
+// The paper-plane icon (telegram.svg) is used as the email button.
+const SOCIALS: { label: string; icon: string; href?: string; newTab?: boolean }[] = [
+  { label: 'Email', icon: telegram, href: MAILTO },
   { label: 'X', icon: x },
-  { label: 'LinkedIn', icon: linkedin, href: LINKEDIN_URL },
+  { label: 'LinkedIn', icon: linkedin, href: LINKEDIN_URL, newTab: true },
   { label: 'Dribbble', icon: dribbble },
 ]
 
@@ -148,9 +149,11 @@ export function Footer() {
               <GlossyButton
                 shape="icon"
                 magnetic
-                {...(s.href
+                {...(s.href && s.newTab
                   ? { href: s.href, ...NEW_TAB, 'aria-label': `${s.label} (opens in a new tab)` }
-                  : { href: '#', 'aria-label': s.label, onClick: (e) => e.preventDefault() })}
+                  : s.href
+                    ? { href: s.href, 'aria-label': s.label }
+                    : { href: '#', 'aria-label': s.label, onClick: (e) => e.preventDefault() })}
               >
                 <img src={s.icon} alt="" width={20} height={20} className="theme-icon size-5" />
               </GlossyButton>

@@ -1,16 +1,20 @@
 import { motion, useReducedMotion } from 'motion/react'
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router'
+import { MAILTO } from '../lib/links'
 
-type Item = { id: string; label: string; to: string }
+// `href` = plain external link (mailto); `to` = in-app route.
+type Item = { id: string; label: string; to?: string; href?: string }
 
-// Email Me has no destination yet — wire it up later.
 const ITEMS: Item[] = [
   { id: 'home', label: 'Home', to: '/' },
   { id: 'works', label: 'Works', to: '/#works' },
   { id: 'about', label: 'About', to: '/about' },
-  { id: 'email', label: 'Email Me', to: '' },
+  { id: 'email', label: 'Email Me', href: MAILTO },
 ]
+
+const ITEM_CLASS =
+  'pressable relative flex min-h-8 items-center justify-center rounded-full px-[14px] py-[6px] text-sm leading-5 font-medium tracking-[-0.28px] whitespace-nowrap'
 
 /** Floating pill navigation + the blurred fade behind it (Figma: Floating Pill Navigation / Mask Group). */
 export function Nav() {
@@ -40,15 +44,21 @@ export function Nav() {
         <ul className="flex items-center rounded-full p-1" style={{ background: 'var(--nav-bg)' }}>
           {ITEMS.map((item) => {
             const isActive = active === item.id
+            if (item.href) {
+              return (
+                <li key={item.id}>
+                  <a href={item.href} className={ITEM_CLASS} style={{ color: 'var(--nav-fg)' }}>
+                    <span className="relative">{item.label}</span>
+                  </a>
+                </li>
+              )
+            }
             return (
               <li key={item.id}>
                 <Link
-                  to={item.to || '#'}
-                  onClick={(e) => {
-                    if (!item.to) e.preventDefault()
-                  }}
+                  to={item.to ?? '/'}
                   aria-current={isActive ? 'page' : undefined}
-                  className="pressable relative flex min-h-8 items-center justify-center rounded-full px-[14px] py-[6px] text-sm leading-5 font-medium tracking-[-0.28px] whitespace-nowrap"
+                  className={ITEM_CLASS}
                   style={{
                     color: isActive ? 'var(--nav-active-fg)' : 'var(--nav-fg)',
                     transition: 'color 200ms ease',
